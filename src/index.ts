@@ -1,4 +1,5 @@
-import express, { Application, Response } from 'express';
+import express, { Application, Request, Response } from 'express';
+import { setup, serve, generateHTML } from 'swagger-ui-express';
 import Database from './config/database';
 import UserRouter from './routes/userRouter';
 
@@ -14,14 +15,27 @@ class App {
     this.app.use(express.urlencoded({ extended: true }));
   }
 
+  protected initializeSwagger(): void {
+    this.app.use(express.static('public'));
+    this.app.use(
+      '/docs',
+      serve,
+      setup(undefined, {
+        swaggerOptions: {
+          url: '/swagger.json',
+        },
+      })
+    );
+  }
+
   protected routes(): void {
     this.app.route('/').get((_, res: Response) => {
       res.status(200).json({
-        status: "OK",
-        message: "Users API is running"
+        status: 'OK',
+        message: 'Users API is running',
       });
     });
-    this.app.use("/api/v1/users", UserRouter);
+    this.app.use('/api/v1/users', UserRouter);
   }
 
   constructor() {
@@ -29,6 +43,7 @@ class App {
     this.databaseSync();
     this.initializePlugins();
     this.routes();
+    this.initializeSwagger();
   }
 }
 

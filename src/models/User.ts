@@ -9,7 +9,6 @@ import {
   Unique,
   NotNull,
 } from 'sequelize-typescript';
-import { now } from 'sequelize/types/utils';
 
 @Table({
   tableName: User.USER_TABLE_NAME,
@@ -25,7 +24,7 @@ export class User extends Model {
   @Default(DataType.UUIDV4)
   @PrimaryKey
   @Column
-  id!: string;
+  id?: string;
 
   @Column({
     type: DataType.STRING(255),
@@ -40,7 +39,7 @@ export class User extends Model {
     field: User.USER_EMAIL,
     allowNull: false,
   })
-  email!: string;
+  email: string;
 
   @NotNull
   @Column({
@@ -48,20 +47,18 @@ export class User extends Model {
     field: User.USER_PASSWORD,
     allowNull: false,
   })
-  password!: string;
+  password: string;
 
   // timestamps
-  // @Default(now('postgres'))
   @Column({
     type: DataType.DATE,
     field: 'created_at',
   })
-  createdAt: string;
+  createdAt?: string;
 
-  // @Default(now('postgres'))
   @Column({
     type: DataType.DATE,
     field: 'updated_at',
   })
-  updatedAt: string;
+  updatedAt?: string;
 }

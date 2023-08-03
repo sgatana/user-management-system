@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from "express";
-import { AnyZodObject } from "zod";
+import { NextFunction, Request, Response } from 'express';
+import { AnyZodObject } from 'zod';
 
 const validate =
   (schema: AnyZodObject) =>
@@ -13,10 +13,10 @@ const validate =
 
       return next();
     } catch (err: any) {
-      const error_message = JSON.parse(err.message);
+      const errorMessage = JSON.parse(err.message);
       return res.status(400).json({
-        status: "Bad Request!",
-        message: error_message[0].message,
+        status: 'Bad Request!',
+        message: errorMessage[0].message,
       });
     }
   };

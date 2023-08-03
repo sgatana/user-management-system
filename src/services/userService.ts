@@ -1,20 +1,29 @@
 import { User } from '../models/User';
 
-type PaginationParams = {
-  limit?: number;
-  offset?: number;
-};
-
-interface IUserRepo {
-  save(user: User): Promise<User>;
-  update(user: User): Promise<void>;
-  delete(userId: string): Promise<void>;
-  getById(userId: string): Promise<User>;
-  getAll({ limit, offset }: PaginationParams): Promise<User[]>;
+export interface IUser  {
+  id?: string;
+  name: string;
+  password: string;
+  email: string;
+  created_at?: Date;
+  updated_at?: Date;
 }
 
-export class UserRepo implements IUserRepo {
-  async save(user: User): Promise<User> {
+export type PaginationParams = {
+  limit: number;
+  offset: number;
+};
+
+interface IUserService {
+  save(user: IUser): Promise<IUser>;
+  update(user: IUser): Promise<void>;
+  delete(userId: string): Promise<void>;
+  getById(userId: string): Promise<IUser>;
+  getAll({ limit, offset }: PaginationParams): Promise<IUser[]>;
+}
+
+export class UserService implements IUserService {
+  async save(user: IUser ): Promise<User> {
     try {
       const { name, email, password } = user;
       return await User.create({
@@ -27,7 +36,7 @@ export class UserRepo implements IUserRepo {
     }
   }
 
-  async getById(userId: string): Promise<User> {
+  async getById(userId: string): Promise<IUser> {
     try {
       const user = await User.findOne({
         where: {
@@ -42,15 +51,15 @@ export class UserRepo implements IUserRepo {
       throw new Error('Failed to find the user!');
     }
   }
-  async getAll({ limit, offset }: PaginationParams): Promise<User[]> {
+  async getAll({ limit, offset }: PaginationParams): Promise<IUser[]> {
     try {
-      return await User.findAll({ limit, offset });
+      return await User.findAll({ limit, offset, where: {} });
     } catch (error) {
       throw new Error('Failed to retrieve users!');
     }
   }
 
-  async update(user: User): Promise<void> {
+  async update(user: Partial<User>): Promise<void> {
     const { id, name, email, password } = user;
     try {
       const existingUser = await User.findOne({

@@ -17,7 +17,7 @@
     "declarationMap": false,
     "strictPropertyInitialization": false,
     "sourceMap": true,
-    "allowSyntheticDefaultImports": true 
+    "allowSyntheticDefaultImports": true
   }, 
   "exclude": [
     "./node_modules",

@@ -21,7 +21,7 @@ export default class Database {
       port: this.DB_PORT,
       dialect: 'postgres',
       models: [User],
-      logging: true,
+      logging: false,
     });
     try {
       await this.sequelize.authenticate();
