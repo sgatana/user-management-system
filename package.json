@@ -1,12 +1,12 @@
 {
-  "name": "user-manager",
+  "name": "user-management-api",
   "version": "1.0.0",
   "description": "user management API",
   "main": "index.js",
   "scripts": {
     "test": "yarn test",
-    "predev": "npm run swagger",
-    "prebuild": "npm run swagger",
+    "predev": "yarn swagger",
+    "prebuild": "yarn swagger",
     "build": "tsc",
     "dev": "nodemon && nodemon -x tsoa spec",
     "start": "yarn build && node ./lib/index.js",

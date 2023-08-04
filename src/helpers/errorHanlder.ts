@@ -1,8 +1,8 @@
 export const errorHandler = (error: any) => {
-    let response = { message: 'Internal server error' };
+    let response = { error: 'Internal server error' };
       if (error?.message)
         response = {
-          message: error.message,
+          error: error.message,
         };
       return {
         status: error?.status ?? 500,

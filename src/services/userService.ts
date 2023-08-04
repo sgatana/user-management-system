@@ -37,7 +37,11 @@ class UserService implements IUserService {
     try {
       const { name, email, password } = user;
       const existingUser = await User.findOne({ where: { email } });
-      if(existingUser) throw {message: 'User with provided email already exist', status: 400}
+      if (existingUser)
+        throw {
+          message: 'User with provided email already exist',
+          status: 400,
+        };
       const hashedPassword = await bcrypt.hash(password, salt);
       await User.create({
         name,
@@ -93,11 +97,14 @@ class UserService implements IUserService {
       if (!existingUser) {
         throw { message: 'User not found!', status: 404 };
       }
-      existingUser.name = name ?? existingUser.name;
-      existingUser.email = email ?? existingUser.email;
-      existingUser.password = password ?? existingUser.password;
-
-      await existingUser.save();
+      await User.update(
+        {
+          name: name ?? existingUser.name,
+          email: email ?? existingUser.email,
+          password: password ?? existingUser.password,
+        },
+        { where: { id } }
+      );
     } catch (error: any) {
       throw { message: error?.message ?? error, status: error?.status };
     }
