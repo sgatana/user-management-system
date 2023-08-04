@@ -12,7 +12,7 @@ npm i / npm install
 # or
 yarn / yarn install
 ```
-Create postgres db
+Create postgres db and tests db
 - if you don't have postgres installed, download it [here](https://www.postgresql.org/) 
 
 Create `.env` file and add variables defined in the `.env.example` file
@@ -26,6 +26,7 @@ npm run dev
 # or
 yarn dev
 ```
+To run the tests, run `yarn test` or `npm run test`
 - An admin user will be created to allow you interact with `protected /users routes`
 - Dev server generates swagger documentation for all defined routes and can be accessed at [http://localhost:8000/docs](http://localhost:8000/docs)
     -   to generate swagger documentation separately, run `npm run swagger` or `yarn swagger`
