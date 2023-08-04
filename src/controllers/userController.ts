@@ -22,7 +22,9 @@ class UserController extends Controller {
         email: user.email,
         password: user.password,
       };
-
+      if (user.id) {
+        Object.assign(newUser, { id: user.id });
+      }
       await userService.save(newUser);
 
       return {

@@ -5,6 +5,8 @@ import { seedData } from './seed';
 export default class Database {
   public sequelize: Sequelize | undefined;
 
+  private env = process.env.NODE_ENV || 'development';
+  private TEST_DB_NAME = process.env.POSTGRES_TEST_DB as string;
   private DB_NAME = process.env.POSTGRES_DB as string;
   private DB_HOST = process.env.DB_HOST as string;
   private DB_PORT = process.env.DB_PORT as unknown as number;
@@ -13,7 +15,7 @@ export default class Database {
 
   private async connectToDatabase() {
     this.sequelize = new Sequelize({
-      database: this.DB_NAME,
+      database: this.env === 'test' ? this.TEST_DB_NAME : this.DB_NAME,
       username: this.DB_USER,
       password: this.DB_PASSWORD,
       host: this.DB_HOST,
