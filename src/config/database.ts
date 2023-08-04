@@ -1,7 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
-import * as dotenv from 'dotenv';
 import { User } from '../models/User';
-dotenv.config();
+import { seedData } from './seed';
 
 export default class Database {
   public sequelize: Sequelize | undefined;
@@ -26,6 +25,8 @@ export default class Database {
     try {
       await this.sequelize.authenticate();
       console.log('✅ Connection has been established successfully.');
+      // we create admin user to allow access to protect routes
+      await seedData();
     } catch (error) {
       console.error('❌ Unable to connect to the database:', error);
     }

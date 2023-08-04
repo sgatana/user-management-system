@@ -1,8 +1,13 @@
 import express, { Application, Request, Response } from 'express';
-import { setup, serve, generateHTML } from 'swagger-ui-express';
-import Database from './config/database';
-import UserRouter from './routes/userRouter';
+import { setup, serve } from 'swagger-ui-express';
+import * as dotenv from 'dotenv';
 
+import Database from './config/database';
+import userRouter from './routes/userRouter';
+import authRouter from './routes/authRouter';
+import { authenticationMiddleware } from './helpers/auth';
+
+dotenv.config();
 class App {
   public app: Application;
 
@@ -21,6 +26,7 @@ class App {
       '/docs',
       serve,
       setup(undefined, {
+        explorer: true,
         swaggerOptions: {
           url: '/swagger.json',
         },
@@ -35,7 +41,8 @@ class App {
         message: 'Users API is running',
       });
     });
-    this.app.use('/api/v1/users', UserRouter);
+    this.app.use('/api/v1/auth', authRouter);
+    this.app.use('/api/v1/users', authenticationMiddleware, userRouter);
   }
 
   constructor() {
